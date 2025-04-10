@@ -20,6 +20,7 @@ import CartPage from './client/CartPage'
 import Register from './Auth/Register'
 import AdminLogin from './Admin/components/AdminLogin'
 import LoginForm from './Auth/LoginForm'
+import { ToastContainer } from 'react-toastify'
 function App() {
 
   return (
@@ -55,8 +56,9 @@ function App() {
                 <Route path='cart' element={<CartPage />} />
                 <Route path="/product/:id" element={<ProductPage />} />
           
-
         </Routes>
+        <ToastContainer />
+
       </BrowserRouter>
     </>
   )

@@ -9,6 +9,7 @@ import {
   Paper,
 } from '@mui/material';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -18,7 +19,7 @@ const ProductPage = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const role = localStorage.getItem('role');
+  const token = localStorage.getItem('token');
 
   const fetchProduct = async () => {
     try {
@@ -27,6 +28,7 @@ const ProductPage = () => {
       setLoading(false);
     } catch (err) {
       setError('Product not found');
+      toast.error('Product not found')
       setLoading(false);
     }
   };
@@ -36,7 +38,7 @@ const ProductPage = () => {
     const userId = localStorage.getItem('userId');
   
     if (!token || !userId) {
-      alert('Please login to add products to cart');
+      toast.error('Please login to add products to cart');
       return;
     }
   
@@ -55,7 +57,7 @@ const ProductPage = () => {
         }
       );
   
-      alert('Product added to cart');
+      toast.success('Product added to cart');
     } catch (err) {
       console.error('Error adding to cart:', err.response?.data || err.message);
       alert(err.response?.data?.message || 'Failed to add to cart');
@@ -99,7 +101,7 @@ const ProductPage = () => {
             <Typography variant="body2" color="textSecondary">{product.description}</Typography>
 
             <Box mt={4} display="flex" gap={2}>
-              {role === '0' && (
+              {token  && (
                 <Button
                   variant="contained"
                   color="primary"
