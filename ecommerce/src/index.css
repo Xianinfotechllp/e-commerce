@@ -1,0 +1,120 @@
+
+/* VendorDashboard.css */
+
+.vd-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: white;
+}
+
+/* Updated heading style for the vendor dashboard */
+.vd-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #555; /* medium grey for a balanced look */
+    font-family: Georgia, "Times New Roman", Times, serif;
+    margin-top: -20px;
+    margin-bottom: 50px;
+}
+
+/* New styles for stat cards (for products, orders, sales, etc.) */
+.stat-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    color: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    flex: 1;
+    min-width: 200px;
+    max-width: 220px;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+/* Updated gradients with more saturated colors */
+.stat-cards .stat-card:nth-child(1) {
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+}
+
+.stat-cards .stat-card:nth-child(2) {
+    background: linear-gradient(135deg, #00b894, #55efc4);
+}
+
+.stat-cards .stat-card:nth-child(3) {
+    background: linear-gradient(135deg, #4fd589, #8ad53a);
+}
+
+.stat-cards .stat-card:nth-child(4) {
+    background: linear-gradient(135deg, #0984e3, #74b9ff);
+}
+
+.stat-cards .stat-card:nth-child(5) {
+    background: linear-gradient(135deg, #d63031, #ff7675);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.stat-card h3 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.stat-card p {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Chart related styles - remain unchanged */
+.vd-chart-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.vd-section {
+    flex: 1;
+    min-width: 300px;
+    max-width: 48%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.vd-section h2 {
+    margin-bottom: 15px;
+    color: #444;
+    font-size: 1.2rem;
+}
+
+.vd-section canvas {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 300px;
+}
+
+.vd-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 50px;
+}
+
+.vd-error {
+    color: red;
+}
