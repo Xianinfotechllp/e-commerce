@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField, Typography, MenuItem } from '@mui/material';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ localStorage.setItem('role', role);
 localStorage.setItem('userId', user._id); // if backend sends this
 
 
-      alert(`Logged in as ${role}`);
+      toast.success(`Logged in as ${role}`);
 
       // Redirect
       if (role === 'vendor') {
@@ -39,7 +40,7 @@ localStorage.setItem('userId', user._id); // if backend sends this
         navigate('/');
       }
     } catch (error) {
-      alert(error.response?.data?.message || 'Login failed');
+      toast.error(error.response?.data?.message || 'Login failed');
     }
   };
 
@@ -64,6 +65,9 @@ localStorage.setItem('userId', user._id); // if backend sends this
 
       <Button variant="contained" fullWidth onClick={handleLogin} sx={{ mt: 2 }}>
         Login
+      </Button>
+      <Button variant="contained" fullWidth  sx={{ mt: 2 }}>
+       <Link style={{color:'white',textDecoration:'none'}} to={'/register'}>Register</Link> 
       </Button>
     </Box>
   );

@@ -83,10 +83,14 @@ const Home = () => {
         return inCategory && inPrice && inSearch;
     });
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('role');
-        localStorage.removeItem('userId');
-        navigate('/login');
+        const confirmed = window.confirm('Are you sure you want to log out?');
+        if (confirmed) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('role');
+            localStorage.removeItem('userId');
+            toast.warning("logout successful")
+            navigate('/');
+        }
     }
 
     return (
@@ -116,7 +120,7 @@ const Home = () => {
                         </Badge>
                     </IconButton>
                     {userId ? <Button onClick={() => handleLogout()} sx={{ color: 'white', marginLeft: '3px', border: '1px solid grey' }}>LogOut</Button> :
-                        <Button sx={{ color: 'white', marginLeft: '3px', border: '1px solid grey' }}><Link style={{ color: 'black', textDecoration: 'none' }} to={'/login'}>Login</Link></Button>
+                        <Button sx={{ color: 'white', marginLeft: '3px', border: '1px solid grey' }}><Link style={{ color: 'white', textDecoration: 'none' }} to={'/login'}>Login</Link></Button>
                     }                </Toolbar>
             </AppBar>
 
@@ -236,64 +240,64 @@ const Home = () => {
                     All Products
                 </Typography>
                 <Grid container spacing={2}>
-    {filteredProducts.map((product) => (
-        <Grid item key={product._id} xs={12} sm={6} md={4} lg={3}>
-            <Card
-                sx={{
-                    height: 370,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    borderRadius: 2,
-                    boxShadow: 3,
-                }}
-            >
-                <CardMedia
-                    component="img"
-                    image={product.images?.[0]}
-                    alt={product.name}
-                    sx={{
-                        height: 150,
-                        width:'200px',
-                        objectFit: 'contain',
-                        p: 1,
-                        cursor: 'pointer',
-                        backgroundColor: '#f9f9f9',
-                        borderBottom: '1px solid #eee',
-                    }}
-                    onClick={() => navigate(`/product/${product._id}`)}
-                />
-                <CardContent sx={{ flexGrow: 1, p: 2 }}>
-                    <Typography variant="subtitle1" fontWeight="bold" noWrap>
-                        {product.name}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                        {product.category}
-                    </Typography>
-                    <Typography variant="subtitle1" color="primary">
-                        ₹{product.price}
-                    </Typography>
-                </CardContent>
-                <CardActions sx={{ p: 2 }}>
-                    <Button
-                        size="small"
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        onClick={() => handleAddToCart(product._id)}
-                    >
-                        Add to Cart
-                    </Button>
-                </CardActions>
-            </Card>
-        </Grid>
-    ))}
-    {filteredProducts.length === 0 && (
-        <Typography variant="h6" sx={{ m: 4 }}>
-            No products found with selected filters.
-        </Typography>
-    )}
-</Grid>
+                    {filteredProducts.map((product) => (
+                        <Grid item key={product._id} xs={12} sm={6} md={4} lg={3}>
+                            <Card
+                                sx={{
+                                    height: 370,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-between',
+                                    borderRadius: 2,
+                                    boxShadow: 3,
+                                }}
+                            >
+                                <CardMedia
+                                    component="img"
+                                    image={product.images?.[0]}
+                                    alt={product.name}
+                                    sx={{
+                                        height: 150,
+                                        width: '190px',
+                                        objectFit: 'contain',
+                                        p: 1,
+                                        cursor: 'pointer',
+                                        backgroundColor: '#f9f9f9',
+                                        borderBottom: '1px solid #eee',
+                                    }}
+                                    onClick={() => navigate(`/product/${product._id}`)}
+                                />
+                                <CardContent sx={{ flexGrow: 1, p: 2 }}>
+                                    <Typography variant="subtitle1" fontWeight="bold" noWrap>
+                                        {product.name}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary" noWrap>
+                                        {product.category}
+                                    </Typography>
+                                    <Typography variant="subtitle1" color="primary">
+                                        ₹{product.price}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions sx={{ p: 2 }}>
+                                    <Button
+                                        size="small"
+                                        variant="contained"
+                                        color="primary"
+                                        fullWidth
+                                        onClick={() => handleAddToCart(product._id)}
+                                    >
+                                        Add to Cart
+                                    </Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    ))}
+                    {filteredProducts.length === 0 && (
+                        <Typography variant="h6" sx={{ m: 4 }}>
+                            No products found with selected filters.
+                        </Typography>
+                    )}
+                </Grid>
 
 
                 {/* Section: Electronics */}
@@ -321,7 +325,61 @@ const Home = () => {
                                         component="img"
                                         image={product.images?.[0]}
                                         alt={product.name}
-                                        sx={{ height: 150, objectFit: 'contain',width:'200px', p: 1 }}
+                                        sx={{ height: 150, objectFit: 'contain', width: '190px', p: 1, cursor: 'pointer' }}
+                                        onClick={() => navigate(`/product/${product._id}`)}
+                                    />
+                                    <CardContent sx={{ flexGrow: 1 }}>
+                                        <Typography gutterBottom variant="h6" noWrap>
+                                            {product.name}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary" noWrap>
+                                            {product.category}
+                                        </Typography>
+                                        <Typography variant="subtitle1" fontWeight="bold">
+                                            ₹{product.price}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button
+                                            size="small"
+                                            variant="contained"
+                                            color="primary"
+                                            fullWidth
+                                            onClick={() => handleAddToCart(product._id)}
+                                        >
+                                            Add to Cart
+                                        </Button>
+                                    </CardActions>
+                                </Card>
+                            </Grid>
+                        ))}
+                </Grid>
+                {/* Section: Electronics */}
+                <Typography variant="h5" sx={{ mt: 6, mb: 2 }}>
+                    Furnitures
+                </Typography>
+                <Grid container spacing={2}>
+                    {filteredProducts
+                        .filter(product => product.category === 'Furniture')
+                        .map((product) => (
+                            <Grid item key={product._id} xs={12} sm={6} md={4} lg={3}>
+                                {/* same card */}
+                                <Card
+                                    sx={{
+                                        width: 190,
+                                        height: 370,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-between',
+                                        objectFit: 'contain',
+                                        flexWrap: 'wrap'
+                                    }}
+                                >
+                                    <CardMedia
+                                        component="img"
+                                        image={product.images?.[0]}
+                                        alt={product.name}
+                                        sx={{ height: 150, objectFit: 'contain', width: '190px', p: 1, cursor: 'pointer' }}
                                         onClick={() => navigate(`/product/${product._id}`)}
                                     />
                                     <CardContent sx={{ flexGrow: 1 }}>
@@ -364,6 +422,7 @@ const Home = () => {
                                 <Card
                                     sx={{
                                         height: 370,
+                                        width:190,
                                         display: 'flex',
                                         flexDirection: 'column',
                                         justifyContent: 'space-between',
@@ -373,7 +432,7 @@ const Home = () => {
                                         component="img"
                                         image={product.images?.[0]}
                                         alt={product.name}
-                                        sx={{ height: 150, objectFit: 'contain', p: 1,width:'200px',}}
+                                        sx={{ height: 150, objectFit: 'contain', p: 1, width: '190px', cursor: 'pointer', }}
                                         onClick={() => navigate(`/product/${product._id}`)}
                                     />
                                     <CardContent sx={{ flexGrow: 1 }}>

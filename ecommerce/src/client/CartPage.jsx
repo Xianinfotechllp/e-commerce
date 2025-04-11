@@ -7,19 +7,23 @@ import {
   CardContent,
   IconButton,
   CircularProgress,
+  Grid,
+  Button,
+  Divider,
+  Paper,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
+import Empty from '../utils/Empty';
 
 const CartPage = () => {
   const [cart, setCart] = useState([]);
-  const [loading, setLoading] = useState(true); // added loader
+  const [loading, setLoading] = useState(true);
 
   const fetchCart = async () => {
     const token = localStorage.getItem('token');
-
     if (!token) {
-      console.error("No token found, user not authenticated.");
+      console.error('No token found, user not authenticated.');
       setLoading(false);
       return;
     }
@@ -30,8 +34,6 @@ const CartPage = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      // Defensive fallback if no items
       const items = res?.data?.cart?.items || [];
       setCart(items);
     } catch (error) {
@@ -43,54 +45,121 @@ const CartPage = () => {
 
   const handleRemove = async (productId) => {
     const token = localStorage.getItem('token');
-
     try {
       await axios.delete(`http://localhost:5000/api/cart/remove/${productId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      fetchCart(); // Refresh cart after deletion
+      fetchCart();
     } catch (error) {
       console.error('Error removing product:', error);
     }
+  };
+
+  const getTotalPrice = () => {
+    return cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
   };
 
   useEffect(() => {
     fetchCart();
   }, []);
 
-  return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        My Cart
+  return  (
+    <Box sx={{ p: 3, minHeight: '100vh', backgroundColor: '#f1f3f6' }}>
+      <Typography style={{fontFamily:'cursive',textAlign:'center'}} variant="h5" gutterBottom fontWeight={600}>
+        My Cart ({cart.length})
       </Typography>
 
       {loading ? (
-        <CircularProgress />
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="50vh">
+          <CircularProgress />
+        </Box>
       ) : cart.length === 0 ? (
-        <Typography>Your cart is empty.</Typography>
+        <Empty/>
       ) : (
-        cart.map(({ product, quantity }) => (
-          <Card key={product._id} sx={{ mb: 2, display: 'flex' }}>
-            <CardMedia
-              component="img"
-              image={product?.images?.[0] || '/placeholder.jpg'}
-              alt={product?.name || 'Product'}
-              sx={{ width: 150, objectFit: 'contain' }}
-            />
+        <Grid container spacing={3}>
+          {/* Cart Items Section */}
+          <Grid item xs={12} md={8}>
+            {cart.map(({ product, quantity }) => (
+              <Card key={product._id} sx={{ display: 'flex', mb: 2, p: 2, borderRadius: 2 }}>
+                <CardMedia
+                  component="img"
+                  image={product?.images?.[0] || '/placeholder.jpg'}
+                  alt={product?.name || 'Product'}
+                  sx={{ width: 130, height: 130, objectFit: 'contain', mr: 2 }}
+                />
 
+                <CardContent sx={{ flex: 1 }}>
+                  <Typography variant="h6">{product.name}</Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ my: 1 }}>
+                    Quantity: {quantity}
+                  </Typography>
+                  <Typography variant="body1" fontWeight={600}>
+                    ₹{product.price} x {quantity} = ₹{product.price * quantity}
+                  </Typography>
+                  <Box mt={2}>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      size="small"
+                      onClick={() => handleRemove(product._id)}
+                      startIcon={<DeleteIcon />}
+                    >
+                      Remove
+                    </Button>
+                  </Box>
+                </CardContent>
+              </Card>
+            ))}
+          </Grid>
 
-            <CardContent sx={{ flex: 1 }}>
-              <Typography variant="h6">{product.name}</Typography>
-              <Typography>Price: ₹{product.price}</Typography>
-              <Typography>Quantity: {quantity}</Typography>
-              <IconButton onClick={() => handleRemove(product._id)}>
-                <DeleteIcon color="error" />
-              </IconButton>
-            </CardContent>
-          </Card>
-        ))
+          {/* Price Summary Section */}
+          <Grid item xs={12} md={4} sx={{display:'flex',justifyContent:'center'}}>
+            <Paper elevation={3} sx={{ p: 3, borderRadius: 2,width:'800px',height:'400px',display:'flex',justifyContent:'center',flexDirection:'column' }}>
+              <Typography sx={{textAlign:'center'}} variant="h4" gutterBottom>
+                Price Details
+              </Typography>
+              <Divider sx={{ mb: 2 }} />
+
+              <Box display="flex" justifyContent="space-between" mb={1}>
+                <Typography >Total Items</Typography>
+                <Typography>{cart.length}</Typography>
+              </Box>
+
+              <Box display="flex" justifyContent="space-between" mb={1}>
+                <Typography>Total Price</Typography>
+                <Typography fontWeight={600}>₹{getTotalPrice()}</Typography>
+              </Box>
+
+              <Box display="flex" justifyContent="space-between" mb={1}>
+                <Typography>Delivery Charges</Typography>
+                <Typography color="success.main">Free</Typography>
+              </Box>
+
+              <Divider sx={{ my: 2 }} />
+
+              <Box display="flex" justifyContent="space-between" mb={2}>
+                <Typography variant="h6" fontWeight={600}>
+                  Amount Payable
+                </Typography>
+                <Typography variant="h6" fontWeight={600}>
+                  ₹{getTotalPrice()}
+                </Typography>
+              </Box>
+
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                size="large"
+                sx={{ mt: 2, py: 1.5 }}
+              >
+                Place Order
+              </Button>
+            </Paper>
+          </Grid>
+        </Grid>
       )}
     </Box>
   );

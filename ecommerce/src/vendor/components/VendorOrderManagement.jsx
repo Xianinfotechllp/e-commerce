@@ -3,7 +3,7 @@ import {
   Box, Typography, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Paper,
   Select, MenuItem, FormControl, InputLabel,
-  Button, TextField
+  Button
 } from "@mui/material";
 import axios from "axios";
 import FileDownload from "js-file-download";
@@ -38,19 +38,21 @@ const VendorOrderManagement = () => {
 
   const handleExport = () => {
     const filtered = filterStatus
-      ? orders.filter((o) => o.deliveryStatus === filterStatus)
+      ? orders.filter((o) => o.status === filterStatus)
       : orders;
 
-    const csvHeader = "OrderID,User,Vendor,Amount,Status\n";
-    const csvData = filtered.map((o) =>
-      `${o._id},${o.user?.name || ""},${o.vendor?.name || ""},₹${o.totalAmount},${o.deliveryStatus}`
+    const csvHeader = "OrderID,User,Product,Vendor,Qty,Amount,Status\n";
+    const csvData = filtered.flatMap((order) =>
+      order.items.map((item) =>
+        `${order._id},${order.user?.name || ""},${item.product.name},${item.vendor?.name || ""},${item.quantity},₹${item.product.price * item.quantity},${order.status}`
+      )
     ).join("\n");
 
     FileDownload(csvHeader + csvData, "orders.csv");
   };
 
   const filteredOrders = filterStatus
-    ? orders.filter((order) => order.deliveryStatus === filterStatus)
+    ? orders.filter((order) => order.status === filterStatus)
     : orders;
 
   return (
@@ -68,7 +70,7 @@ const VendorOrderManagement = () => {
             <MenuItem value="">All</MenuItem>
             <MenuItem value="pending">Pending</MenuItem>
             <MenuItem value="shipped">Shipped</MenuItem>
-            <MenuItem value="completed">Completed</MenuItem>
+            <MenuItem value="Delivered">Delivered</MenuItem>
           </Select>
         </FormControl>
 
@@ -83,39 +85,48 @@ const VendorOrderManagement = () => {
             <TableRow>
               <TableCell>Order ID</TableCell>
               <TableCell>User</TableCell>
+              <TableCell>Product</TableCell>
               <TableCell>Vendor</TableCell>
-              <TableCell>Total</TableCell>
+              <TableCell>Qty</TableCell>
+              <TableCell>Amount</TableCell>
               <TableCell>Payment</TableCell>
               <TableCell>Delivery Status</TableCell>
               <TableCell>Update Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredOrders.map((order) => (
-              <TableRow key={order._id}>
-                <TableCell>{order._id}</TableCell>
-                <TableCell>{order.user?.name}</TableCell>
-                <TableCell>{order.vendor?.name}</TableCell>
-                <TableCell>₹{order.totalAmount}</TableCell>
-                <TableCell>{order.paymentStatus}</TableCell>
-                <TableCell>{order.deliveryStatus}</TableCell>
-                <TableCell>
-                  <Select
-                    size="small"
-                    value={order.deliveryStatus}
-                    onChange={(e) => handleStatusChange(order._id, e.target.value)}
-                  >
-                    <MenuItem value="pending">Pending</MenuItem>
-                    <MenuItem value="shipped">Shipped</MenuItem>
-                    <MenuItem value="completed">Completed</MenuItem>
-                  </Select>
-                </TableCell>
-              </TableRow>
-            ))}
-            {filteredOrders.length === 0 && (
+            {filteredOrders.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} align="center">No orders found.</TableCell>
+                <TableCell colSpan={9} align="center">No orders found.</TableCell>
               </TableRow>
+            ) : (
+              filteredOrders.map((order) =>
+                order.items.map((item, idx) => (
+                  <TableRow key={`${order._id}-${item._id}`}>
+                    <TableCell>{idx === 0 ? order._id : ""}</TableCell>
+                    <TableCell>{idx === 0 ? order.user?.name : ""}</TableCell>
+                    <TableCell>{item.product.name}</TableCell>
+                    <TableCell>{item.vendor?.name}</TableCell>
+                    <TableCell>{item.quantity}</TableCell>
+                    <TableCell>₹{item.product.price * item.quantity}</TableCell>
+                    <TableCell>{idx === 0 ? order.paymentStatus : ""}</TableCell>
+                    <TableCell>{idx === 0 ? order.status : ""}</TableCell>
+                    <TableCell>
+                      {idx === 0 && (
+                        <Select
+                          size="small"
+                          value={order.status}
+                          onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                        >
+                          <MenuItem value="pending">Pending</MenuItem>
+                          <MenuItem value="shipped">Shipped</MenuItem>
+                          <MenuItem value="Delivered">Delivered</MenuItem>
+                        </Select>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))
+              )
             )}
           </TableBody>
         </Table>

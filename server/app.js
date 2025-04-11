@@ -1,10 +1,14 @@
 import express from "express";
 import cors from "cors";
+// route imports
 import productRoutes from "./routes/adminRoutes/productRoutes.js";
 import couponRoutes from "./routes/adminRoutes/couponRoutes.js"
 import vendorRoutes from "./routes/vendorRoutes/vendorRoutes.js";
 import cartRoutes from "./routes/cartRoutes/cartRoutes.js"
 import userRoutes from "./routes/user/userRoutes.js"
+import reviewRoutes from "./routes/reviewRoutes/reviewRoutes.js"
+
+
 import connectDb from "./db/database.js";
 import dotenv from "dotenv";
 
@@ -28,11 +32,14 @@ app.use("/uploads", express.static("uploads")); // Serve images
 // Routes admin
 app.use("/api/products", productRoutes);
 app.use("/api/coupons", couponRoutes);
+// route cart
 app.use('/api/cart', cartRoutes);
-
+// route user
 app.use('/api/users', userRoutes);
 // routes vendor
 app.use("/api/vendors", vendorRoutes);
+// routes review
+app.use("/api/reviews", reviewRoutes);
 
 
 
