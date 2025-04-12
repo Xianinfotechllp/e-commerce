@@ -229,15 +229,21 @@ const ProductPage = () => {
                 placeholder="Write your review..."
               />
             </Box>
-            <Button
+            {token ? <Button
               variant="contained"
               color="primary"
               sx={{ mt: 2, px: 4, py: 1.2 }}
               onClick={handleReviewSubmit}
             >
               Submit Review
-            </Button>
+            </Button> :
+              <p style={{ color: 'red' }}>Login For Sumbmit Review</p>}
           </Paper>
+        )}
+        {!token && (
+          <Typography color="error" mt={2}>
+            Please login to submit a review.
+          </Typography>
         )}
 
         {/* Display Reviews */}

@@ -9,8 +9,9 @@ import {
   Divider,
 } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const Checkout = () => {
+const CheckoutForm = () => {
   const { state } = useLocation(); // Get product data passed via Order Now
   const navigate = useNavigate();
 
@@ -26,6 +27,7 @@ const Checkout = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const validate = () => {
     const newErrors = {};
@@ -51,13 +53,49 @@ const Checkout = () => {
     setAddress({ ...address, [e.target.name]: e.target.value });
   };
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     if (!validate()) return;
-
-    // Mock placing order
-    alert('Order placed successfully!');
-    navigate('/');
+  
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId'); // assuming user info is stored here
+  
+    if (!token || !userId) {
+      alert('User not logged in');
+      return;
+    }
+  
+    const orderData = {
+      user: userId, // ✅ Add this!
+      items: [
+        {
+          product: product._id,
+          vendor: product.vendor, // must be a valid vendor ID
+          quantity: 1,
+          price: product.price,   // ✅ Required based on backend validation
+        },
+      ],
+      totalAmount: product.price,
+      address: `${address.fullName}, ${address.street}, ${address.city}, ${address.state} - ${address.zip}, Phone: ${address.phone}`,
+    };
+  
+    try {
+      const res = await axios.post(
+        'http://localhost:5000/api/orders/create',
+        orderData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      alert('Order placed successfully!');
+      navigate('/');
+    } catch (error) {
+      console.error('❌ Order Error:', error.response?.data || error.message);
+      alert('Failed to place order. Please check the form and try again.');
+    }
   };
+  
 
   if (!product) {
     return <Typography p={4}>No product found. Please select a product to order.</Typography>;
@@ -138,8 +176,9 @@ const Checkout = () => {
               fullWidth
               sx={{ mt: 2 }}
               onClick={handlePlaceOrder}
+              disabled={loading}
             >
-              Place Order
+              {loading ? 'Placing Order...' : 'Place Order'}
             </Button>
           </Paper>
         </Grid>
@@ -148,4 +187,4 @@ const Checkout = () => {
   );
 };
 
-export default Checkout;
+export default CheckoutForm;

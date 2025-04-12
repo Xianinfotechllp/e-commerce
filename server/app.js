@@ -7,6 +7,7 @@ import vendorRoutes from "./routes/vendorRoutes/vendorRoutes.js";
 import cartRoutes from "./routes/cartRoutes/cartRoutes.js"
 import userRoutes from "./routes/user/userRoutes.js"
 import reviewRoutes from "./routes/reviewRoutes/reviewRoutes.js"
+import orderRoutes from "./routes/OrderRoutes/orderRouter.js"
 
 
 import connectDb from "./db/database.js";
@@ -40,6 +41,8 @@ app.use('/api/users', userRoutes);
 app.use("/api/vendors", vendorRoutes);
 // routes review
 app.use("/api/reviews", reviewRoutes);
+// oreder Routes
+app.use("/api/orders",orderRoutes)
 
 
 

@@ -13,7 +13,7 @@ export const addItemCartController = async (req, res) => {
       return res.status(400).json({ message: 'Invalid product data' });
     }
 
-    const productDoc = await productModel.findById(productId);
+    const productDoc = await productModel.findById(productId).populate('vendor');
     if (!productDoc) {
       return res.status(404).json({ message: 'Product not found' });
     }
@@ -23,17 +23,15 @@ export const addItemCartController = async (req, res) => {
     if (!cart) {
       cart = new cartModel({
         userId,
-        items: [{ product: productId, quantity: parsedQuantity ,vendor: productDoc.vendor,}],
+        items: [{ product: productId, quantity: parsedQuantity, vendor: productDoc.vendor._id }],
       });
     } else {
-      const existingItem = cart.items.find(
-        item => item.product.toString() === productId
-      );
+      const existingItem = cart.items.find(item => item.product.toString() === productId);
 
       if (existingItem) {
         existingItem.quantity += parsedQuantity;
       } else {
-        cart.items.push({ product: productId, quantity: parsedQuantity,vendor: productDoc.vendor});
+        cart.items.push({ product: productId, quantity: parsedQuantity, vendor: productDoc.vendor._id });
       }
     }
 
@@ -44,7 +42,6 @@ export const addItemCartController = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
-;
 
 // Remove item from cart
 export const deleteItemCartController = async (req, res) => {
@@ -73,7 +70,7 @@ export const getTotalCartController = async (req, res) => {
   try {
     const userId = req.user._id;
 
-    const cart = await cartModel.findOne({ userId }).populate('items.product', 'price name images');
+    const cart = await cartModel.findOne({ userId }).populate('items.product', 'price name images').populate('items.vendor', 'name'); // Populate product and vendor
     if (!cart) return res.status(404).json({ success: false, message: 'Cart not found' });
 
     const total = cart.items.reduce((acc, item) => {
@@ -87,6 +84,8 @@ export const getTotalCartController = async (req, res) => {
   }
 };
 
+
+
 // Sync cart
 export const syncCartController = async (req, res) => {
   try {
@@ -97,11 +96,18 @@ export const syncCartController = async (req, res) => {
       return res.status(400).json({ message: 'Invalid cart items format' });
     }
 
+    // Ensure each item in the array has the correct format
+    const validItems = items.map(item => ({
+      product: item.product,
+      quantity: item.quantity,
+      vendor: item.vendor,  // Ensure vendor is included in each item
+    }));
+
     let cart = await cartModel.findOne({ userId });
     if (!cart) {
-      cart = new cartModel({ userId, items });
+      cart = new cartModel({ userId, items: validItems });
     } else {
-      cart.items = items;
+      cart.items = validItems;  // Replace old items with new items
     }
 
     await cart.save();
@@ -111,6 +117,7 @@ export const syncCartController = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 // Get all carts (Admin)
 export const getAllCartsController = async (req, res) => {
@@ -127,7 +134,16 @@ export const getAllCartsController = async (req, res) => {
 export const getUserCartController = async (req, res) => {
   try {
     const userId = req.user._id;
-    const cart = await cartModel.findOne({ userId }).populate('items.product', 'name price images');
+
+    const cart = await cartModel.findOne({ userId })
+      .populate({
+        path: 'items.product',
+        select: 'name price images vendor',
+        populate: {
+          path: 'vendor',
+          select: 'name businessName'
+        }
+      });
 
     if (!cart) {
       return res.status(404).json({ success: false, message: "Cart not found" });
@@ -139,3 +155,4 @@ export const getUserCartController = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
