@@ -17,7 +17,7 @@ import CartPage from './client/CartPage'
 import Register from './Auth/Register'
 import AdminLogin from './Admin/components/AdminLogin'
 import LoginForm from './Auth/LoginForm'
-import { ToastContainer } from 'react-toastify'
+import { Bounce, ToastContainer } from 'react-toastify'
 import CheckoutPageAll from './client/CheckoutPageAll'
 function App() {
 
@@ -26,13 +26,13 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='admin-login' element={<AdminLogin />} />
-          <Route path='login' element={<LoginForm/>} />
-            <Route path='register' element={<Register />} />
+          <Route path='login' element={<LoginForm />} />
+          <Route path='register' element={<Register />} />
 
 
           <Route path='admin' element={<LayOut />}>
-          <Route index  element={<Dashboard />} />
-          <Route index path='dashboard' element={<Dashboard />} />
+            <Route index element={<Dashboard />} />
+            <Route index path='dashboard' element={<Dashboard />} />
             <Route path='admin-users' element={<Users />} />
             <Route path='admin-coupons' element={<AdminCoupons />} />
             {/* <Route path='/' element={<Dashboard />} /> */}
@@ -41,22 +41,35 @@ function App() {
 
           {/* vendor */}
           <Route path='vendor' element={<VendorLayout />}>
-            <Route index  element={<VendorDashboard />} />
+            <Route index element={<VendorDashboard />} />
             <Route index path='vendor-dashboard' element={<VendorDashboard />} />
             <Route path='vendor-product' element={<VendorProductManager />} />
             <Route path='vendor-order' element={<VendorOrderManagement />} />
           </Route>
 
           {/* user-client */}
-         
-                <Route path="/" element={<Home />} />
-                <Route path='checkout' element={<CheckoutForm />} />
-                <Route path='cart' element={<CartPage />} />
-                <Route path="/product/:id" element={<ProductPage />} />
-                <Route path='/checkout-all' element={<CheckoutPageAll/>}/>
-          
+
+          <Route path="/" element={<Home />} />
+          <Route path='checkout' element={<CheckoutForm />} />
+          <Route path='cart' element={<CartPage />} />
+          <Route path="/product/:id" element={<ProductPage />} />
+          <Route path='/checkout-all' element={<CheckoutPageAll />} />
+
         </Routes>
-        <ToastContainer position="bottom-left"/>
+
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable={true}
+          pauseOnHover={false}
+          theme="dark"
+          transition={Bounce}
+        />
 
       </BrowserRouter>
     </>

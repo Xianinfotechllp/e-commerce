@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, Button, TextField, Typography, MenuItem } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import regImage from '../images/register.jpg'
 
 const Register = () => {
   const [role, setRole] = useState('user');
@@ -38,7 +39,12 @@ const Register = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 400, mx: 'auto', mt: 5 }}>
+     <Box sx={{
+          display: 'flex', justifyContent: 'center', alignItems: 'center', height: '98vh',
+          backgroundImage: `url(  ${regImage} )`, backgroundSize: "cover",
+          backgroundPosition: "center"
+        }}>
+    <Box sx={{ maxWidth: 400, mx: 'auto',mr:120 }}>
       <Typography variant="h5">Register as {role}</Typography>
 
       <TextField
@@ -65,6 +71,7 @@ const Register = () => {
       <Button variant="contained" fullWidth onClick={handleSubmit} sx={{ mt: 2 }}>
         Register
       </Button>
+    </Box>
     </Box>
   );
 };

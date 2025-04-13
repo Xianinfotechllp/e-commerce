@@ -277,6 +277,9 @@ const Home = () => {
                                     <Typography variant="subtitle1" color="primary">
                                         ₹{product.price}
                                     </Typography>
+                                    <Typography variant="subtitle1" color="text.secondary">
+                                        {product.description.slice(0,20)}
+                                    </Typography>
                                 </CardContent>
                                 <CardActions sx={{ p: 2 }}>
                                     <Button

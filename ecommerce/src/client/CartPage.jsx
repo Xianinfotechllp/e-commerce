@@ -71,7 +71,7 @@ const CartPage = () => {
   }, []);
 
   return (
-    <Box sx={{ p: 3, minHeight: '100vh', backgroundColor: '#f1f3f6' }}>
+    <Box sx={{ p: 3, minHeight: '90vh', backgroundColor: '#f1f3f6' }}>
       <Typography
         variant="h4"
         textAlign="center"
@@ -152,7 +152,8 @@ const CartPage = () => {
                 backgroundColor: '#fff',
                 boxShadow: 3,
                 width:'800px',
-                marginTop:'50px'
+                marginTop:'50px',
+                ml:4
               }}
             >
               <Typography variant="h5" fontWeight={600} textAlign="center" mb={2}>
