@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import {toast} from 'react-toastify'
 import {
   Box,
   AppBar as MuiAppBar,
@@ -111,11 +112,16 @@ export default function VendorLayout() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    navigate('/login');
+    const confirmed = window.confirm('Are you sure you want to log out?');
+    if (confirmed) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
+      localStorage.removeItem('userId');
+      toast.warning("logout successful")
+      navigate('/');
+    }
   };
-  
+
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -130,7 +136,7 @@ export default function VendorLayout() {
           </Typography>
         </Toolbar>
       </AppBar>
-      
+
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>

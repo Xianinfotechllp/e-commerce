@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import {toast} from 'react-toastify'
 import {
   Box, Button, TextField, Typography, Card, CardContent,
   CardMedia, Dialog, DialogTitle, DialogContent, DialogActions,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 const VendorProductManager = () => {
@@ -52,6 +57,7 @@ const VendorProductManager = () => {
       });
       setForm({ name: "", description: "", price: "", category: "", stock: "", image: null });
       fetchProducts();
+      toast.success('product added successfully')
     } catch (err) {
       console.error("Add product error:", err.response?.data || err.message);
     }
@@ -73,6 +79,7 @@ const VendorProductManager = () => {
       setEditingProduct(null);
       setForm({ name: "", description: "", price: "", category: "", stock: "", image: null });
       fetchProducts();
+      toast.success('product updated successfully')
     } catch (err) {
       console.error("Update error:", err.response?.data || err.message);
     }
@@ -96,7 +103,21 @@ const VendorProductManager = () => {
         <TextField label="Name" name="name" value={form.name} onChange={handleChange} />
         <TextField label="Description" name="description" value={form.description} onChange={handleChange} />
         <TextField label="Price" name="price" value={form.price} onChange={handleChange} />
-        <TextField label="Category" name="category" value={form.category} onChange={handleChange} />
+        <FormControl fullWidth>
+          <InputLabel>Category</InputLabel>
+          <Select
+            name="category"
+            value={form.category}
+            label="Category"
+            onChange={handleChange}
+          >
+            <MenuItem value="Electronics">Electronics</MenuItem>
+            <MenuItem value="Furniture">Furniture</MenuItem>
+            <MenuItem value="Clothing">Clothing</MenuItem>
+            <MenuItem value="Books">Books</MenuItem>
+          </Select>
+        </FormControl>
+
         <TextField label="Stock" name="stock" value={form.stock} onChange={handleChange} />
         <input type="file" name="image" accept="image/*" onChange={handleChange} />
         <Button variant="contained" onClick={handleAdd}>Add Product</Button>
