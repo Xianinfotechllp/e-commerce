@@ -19,6 +19,8 @@ import AdminLogin from './Admin/components/AdminLogin'
 import LoginForm from './Auth/LoginForm'
 import { Bounce, ToastContainer } from 'react-toastify'
 import CheckoutPageAll from './client/CheckoutPageAll'
+import Footer from './utils/Footer.jsx'
+import UserOrder from './client/userOrder.jsx'
 function App() {
 
   return (
@@ -54,9 +56,11 @@ function App() {
           <Route path='cart' element={<CartPage />} />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path='/checkout-all' element={<CheckoutPageAll />} />
+          <Route path='/user-order/:id' element={<UserOrder />} />
+          
 
         </Routes>
-
+        <Footer/>
         <ToastContainer
           position="top-right"
           autoClose={3000}
@@ -72,6 +76,7 @@ function App() {
         />
 
       </BrowserRouter>
+ 
     </>
   )
 }
