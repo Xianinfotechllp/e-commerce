@@ -23,12 +23,22 @@ connectDb()
 // Middleware
 app.use(express.json());
 // cors
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://ecom-frontend-vvd8.vercel.app"
+];
+
 app.use(cors({
-    origin: "http://localhost:5173",
-    "https://ecom-frontend-vvd8.vercel.app",
-    // 👈 your frontend origin
-    credentials: true                // 👈 allow credentials (cookies, headers)
-  }));
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
+
 
 app.use("/uploads", express.static("uploads")); // Serve images
 
