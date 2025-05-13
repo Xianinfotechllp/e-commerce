@@ -1,6 +1,6 @@
 import express from "express";
 import { createReview, getProductReviews } from "../../controllers/review/reviewController.js";
-import { protect } from "../../middlewares/Authmiddleware.js";
+import { protect } from "../../middlewares/authmiddleware.js";
 
 const router = express.Router();
 
