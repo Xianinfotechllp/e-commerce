@@ -12,6 +12,7 @@ import axios from 'axios';
 import CartBadge from './CartBadge';
 import { toast } from 'react-toastify'
 import shopImg from "../images/shop.jpg";
+import Footer from '../utils/Footer';
 
 const categories = ['All', 'Electronics', 'Furniture', 'Clothing', 'Books'];
 
@@ -94,6 +95,7 @@ const Home = () => {
     }
 
     return (
+        <>
         <Box sx={{ display: 'flex' }}>
             {/* AppBar */}
             <AppBar position="fixed" sx={{ zIndex: 1300 }}>
@@ -119,9 +121,13 @@ const Home = () => {
                             <CartBadge />
                         </Badge>
                     </IconButton>
-                    {userId ? <Button onClick={() => handleLogout()} sx={{ color: 'white', marginLeft: '3px', border: '1px solid grey' }}>LogOut</Button> :
+                    {userId ? <Button onClick={() => handleLogout()} sx={{ color: 'white', marginLeft: '3px', border: 'none' }}>LogOut</Button> :
                         <Button sx={{ color: 'white', marginLeft: '3px', border: '1px solid grey' }}><Link style={{ color: 'white', textDecoration: 'none' }} to={'/login'}>Login</Link></Button>
-                    }                </Toolbar>
+                    }      
+                    {
+                        userId&&<Button sx={{ color: 'white', marginLeft: '13px', border: 'none', }}>orders</Button>
+                    }
+                              </Toolbar>
             </AppBar>
 
             {/* Sidebar */}
@@ -130,6 +136,7 @@ const Home = () => {
                 anchor="left"
                 sx={{
                     width: 13,
+                    zIndex:'-14',
                     flexShrink: 0,
                     [`& .MuiDrawer-paper`]: {
                         width: 260,
@@ -183,7 +190,7 @@ const Home = () => {
             >
 
 
-                <Paper sx={{ width: '100%', position: 'relative', overflow: 'hidden', borderRadius: 2 }}>
+                <Paper sx={{ width: '100%', position: 'relative', overflow: 'hidden', borderRadius: 2,}}>
                     {/* Overlay Text */}
                     <Box
                         sx={{
@@ -228,7 +235,7 @@ const Home = () => {
                         alt="Shop Banner"
                         style={{
                             width: '100%',
-                            height: '400px',
+                            height: '100%',
                             objectFit: 'cover',
                             filter: 'brightness(90%)',
                         }}
@@ -467,7 +474,9 @@ const Home = () => {
 
 
             </Box>
+            
         </Box>
+         </>
     );
 };
 
