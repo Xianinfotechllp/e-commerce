@@ -8,7 +8,7 @@ import {
   getVendorProducts,
 } from "../../controllers/vendor/productController.js";
 import { upload } from "../../utils/cloudinary.js";
-import { protect, isVendor } from "../../middlewares/Authmiddleware.js";
+import { protect, isVendor } from "../../middlewares/authmiddleware.js";
 
 const router = express.Router();
 
