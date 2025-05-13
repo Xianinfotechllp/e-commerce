@@ -16,7 +16,7 @@ const CartBadge = () => {
         }
 
         try {
-            const res = await axios.get(`http://localhost:5000/api/cart`, {
+            const res = await axios.get(`https://e-commerce-4jpl.onrender.com/api/cart`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

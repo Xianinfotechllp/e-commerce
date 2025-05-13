@@ -25,7 +25,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 
-const API_URL = "http://localhost:5000/api/products";
+const API_URL = "https://e-commerce-4jpl.onrender.com/api/products";
 const categories = ["Electronics", "Furniture", "Clothing", "Books"];
 
 const Products = () => {

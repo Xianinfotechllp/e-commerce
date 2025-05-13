@@ -23,7 +23,7 @@ const VendorProductManager = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/vendors/my-products", {
+      const res = await axios.get("https://e-commerce-4jpl.onrender.com/api/vendors/my-products", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProducts(res.data?.products || []);
@@ -49,7 +49,7 @@ const VendorProductManager = () => {
     for (let key in form) formData.append(key, form[key]);
 
     try {
-      await axios.post("http://localhost:5000/api/vendors/add", formData, {
+      await axios.post("https://e-commerce-4jpl.onrender.com/api/vendors/add", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -70,7 +70,7 @@ const VendorProductManager = () => {
     }
 
     try {
-      await axios.put(`http://localhost:5000/api/vendors/update/${editingProduct._id}`, formData, {
+      await axios.put(`https://e-commerce-4jpl.onrender.com/api/vendors/update/${editingProduct._id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -87,7 +87,7 @@ const VendorProductManager = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/vendors/delete/${id}`, {
+      await axios.delete(`https://e-commerce-4jpl.onrender.com/api/vendors/delete/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchProducts();

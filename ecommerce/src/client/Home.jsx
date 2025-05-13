@@ -36,7 +36,7 @@ const Home = () => {
 
         try {
             await axios.post(
-                `http://localhost:5000/api/cart/add/${productId}`,
+                `https://e-commerce-4jpl.onrender.com/api/cart/add/${productId}`,
                 {
                     userId, // ⬅️ make sure backend expects this
                     quantity: 1,
@@ -61,7 +61,7 @@ const Home = () => {
 
     const fetchProducts = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/products");
+            const res = await axios.get("https://e-commerce-4jpl.onrender.com/api/products");
             setProducts(res.data);
         } catch (error) {
             console.error("Error fetching products:", error);

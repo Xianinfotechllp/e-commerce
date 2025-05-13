@@ -25,7 +25,7 @@ const CheckoutAllForm = () => {
     if (!token) return;
 
     try {
-      const res = await axios.get('http://localhost:5000/api/cart', {
+      const res = await axios.get('https://e-commerce-4jpl.onrender.com/api/cart', {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -90,7 +90,7 @@ const CheckoutAllForm = () => {
 
     try {
       setLoading(true);
-      await axios.post('http://localhost:5000/api/orders/create', orderData, {
+      await axios.post('https://e-commerce-4jpl.onrender.com/api/orders/create', orderData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

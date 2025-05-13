@@ -21,8 +21,8 @@ const Register = () => {
   const handleSubmit = async () => {
     const endpoint =
       role === 'vendor'
-        ? 'http://localhost:5000/api/vendors/register'
-        : 'http://localhost:5000/api/users/register';
+        ? 'https://e-commerce-4jpl.onrender.com/api/vendors/register'
+        : 'https://e-commerce-4jpl.onrender.com/api/users/register';
 
     const dataToSend =
       role === 'vendor'
