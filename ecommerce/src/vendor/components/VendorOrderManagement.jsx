@@ -37,7 +37,7 @@ const VendorOrderManagement = () => {
   const fetchOrders = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/orders/vendor/${vendorId}`
+        `https://e-commerce-4jpl.onrender.com/api/orders/vendor/${vendorId}`
       );
       setOrders(res.data);
     } catch (err) {
@@ -52,7 +52,7 @@ const VendorOrderManagement = () => {
   const handleStatusChange = async (orderId, newStatus) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/orders/${orderId}`,
+        `https://e-commerce-4jpl.onrender.com/api/orders/${orderId}`,
         { status: newStatus },
         { headers: { "Content-Type": "application/json" } }
       );

@@ -80,7 +80,7 @@ const CheckoutForm = () => {
   
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/orders/create',
+        'https://e-commerce-4jpl.onrender.com/api/orders/create',
         orderData,
         {
           headers: {

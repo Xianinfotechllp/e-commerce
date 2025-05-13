@@ -30,7 +30,7 @@ const CartPage = () => {
     }
 
     try {
-      const res = await axios.get(`http://localhost:5000/api/cart`, {
+      const res = await axios.get(`https://e-commerce-4jpl.onrender.com/api/cart`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -47,7 +47,7 @@ const CartPage = () => {
   const handleRemove = async (productId) => {
     const token = localStorage.getItem('token');
     try {
-      await axios.delete(`http://localhost:5000/api/cart/remove/${productId}`, {
+      await axios.delete(`https://e-commerce-4jpl.onrender.com/api/cart/remove/${productId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -30,7 +30,7 @@ const ProductPage = () => {
 
   const fetchProduct = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/products/${id}`);
+      const res = await axios.get(`https://e-commerce-4jpl.onrender.com/api/products/${id}`);
       setProduct(res.data);
       setLoading(false);
     } catch (err) {
@@ -42,7 +42,7 @@ const ProductPage = () => {
 
   const fetchReviews = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/reviews/${id}`);
+      const res = await axios.get(`https://e-commerce-4jpl.onrender.com/api/reviews/${id}`);
       setReviews(res.data);
     } catch (err) {
       toast.error('Failed to load reviews');
@@ -57,7 +57,7 @@ const ProductPage = () => {
 
     try {
       await axios.post(
-        `http://localhost:5000/api/cart/add/${productId}`,
+        `https://e-commerce-4jpl.onrender.com/api/cart/add/${productId}`,
         {
           userId,
           quantity: 1,
@@ -85,7 +85,7 @@ const ProductPage = () => {
 
     try {
       await axios.post(
-        `http://localhost:5000/api/reviews/${id}`,
+        `https://e-commerce-4jpl.onrender.com/api/reviews/${id}`,
         { rating, comment },
         {
           headers: {

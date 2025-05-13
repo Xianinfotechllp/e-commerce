@@ -17,8 +17,8 @@ const LoginForm = () => {
   const handleLogin = async () => {
     const endpoint =
       role === 'vendor'
-        ? 'http://localhost:5000/api/vendors/login'
-        : 'http://localhost:5000/api/users/login';
+        ? 'https://e-commerce-4jpl.onrender.com/api/vendors/login'
+        : 'https://e-commerce-4jpl.onrender.com/api/users/login';
 
     try {
       const res = await axios.post(endpoint, formData);

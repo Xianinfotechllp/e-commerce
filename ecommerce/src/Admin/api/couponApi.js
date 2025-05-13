@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/coupons";
+const API_URL = "https://e-commerce-4jpl.onrender.com/api/coupons";
 
 // Create a new coupon
 export const createCoupon = async (couponData) => {

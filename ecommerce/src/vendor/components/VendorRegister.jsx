@@ -31,7 +31,7 @@ const VendorRegister = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/vendors/register", formData);
+      const res = await axios.post("https://e-commerce-4jpl.onrender.com/api/vendors/register", formData);
       localStorage.setItem("vendorToken", res.data.token);
       setMessage("Registration successful!");
       navigate("/vendor-login");
