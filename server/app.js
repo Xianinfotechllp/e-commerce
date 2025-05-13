@@ -24,7 +24,9 @@ connectDb()
 app.use(express.json());
 // cors
 app.use(cors({
-    origin: "http://localhost:5173", // 👈 your frontend origin
+    origin: "http://localhost:5173",
+    "https://ecom-frontend-vvd8.vercel.app",
+    // 👈 your frontend origin
     credentials: true                // 👈 allow credentials (cookies, headers)
   }));
 
